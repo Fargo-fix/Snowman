@@ -11,7 +11,7 @@ def build_screen():
     color_blue = (0, 0, 255)
     color_white = (255, 255, 255)
     color_gray = (230, 200, 200)
-    
+
 
     size_screen = [600, 500]
     screen = pg.display.set_mode(size_screen)
@@ -28,26 +28,15 @@ def build_screen():
 
     clock = pg.time.Clock()
     done = False
-    
+
     while not done:
 
-        
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
 
         screen.fill(color_black)
-
-        for i in range(len(snow_list)):
-            pg.draw.circle(screen, color_white, snow_list[i], 2)
-            
-            snow_list[i][1] += 1
-
-            if snow_list[i][1] > 500:
-                y = rd.randrange(-50, -10)
-                snow_list[i][1] = y
-                x = rd.randrange(0, 600)
-                snow_list[i][0] = x
 
         pg.draw.rect(screen, color_white, [0, 360, 600, 200])
 
@@ -58,11 +47,24 @@ def build_screen():
         pg.draw.circle(screen, color_gray, [500, 60], 40)
         pg.draw.circle(screen, color_black, [475, 60], 40)
 
+
+        for i in range(len(snow_list)):
+            pg.draw.circle(screen, color_white, snow_list[i], 2)
+
+            snow_list[i][1] += 1
+
+            if snow_list[i][1] > 500:
+                y = rd.randrange(-50, -10)
+                snow_list[i][1] = y
+                x = rd.randrange(0, 600)
+                snow_list[i][0] = x
+
         
-        
+
+
 
         pg.display.flip()
         clock.tick(20)
 
 build_screen()
-pg.quit()
+pg.quit() 
