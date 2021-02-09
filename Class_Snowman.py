@@ -2,12 +2,14 @@ import pygame as pg
 import random as rd
 
 
-class DrawPostcard:
+pg.init()
+
+
+class Draw:
 
     def __init__(self):
         self.color_black = (0, 0, 0)
         
-
     def check_event(self):
         self.clock = pg.time.Clock()
         self.done = False
@@ -19,7 +21,6 @@ class DrawPostcard:
         self.clock.tick(20)
 
     def draw_window(self):
-
         self.size_screen = [600, 500]
         self.screen = pg.display.set_mode(self.size_screen)
 
@@ -28,7 +29,14 @@ class DrawPostcard:
         self.screen.fill(self.color_black)
 
 
+class Manager:
 
-d = DrawPostcard()
-d.draw_window()
-d.check_event()
+    d = Draw()
+    d.draw_window()
+    d.check_event()
+
+
+run = Manager()
+
+
+pg.quit()
