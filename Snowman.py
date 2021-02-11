@@ -18,6 +18,8 @@ def build_screen():
 
     pg.display.set_caption("--- My Snowman ---")
 
+    
+
     snow_list = []
 
     for i in range(50):
