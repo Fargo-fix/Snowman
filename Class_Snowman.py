@@ -14,7 +14,7 @@ class  Create_Game_Space:
         self.color_black = (0, 0, 0)
 
         # Size visible window
-        self.size_screen = [600, 500]
+        self.size_screen = (600, 500)
 
         # Create a visible space
         self.screen = pg.display.set_mode(self.size_screen)
@@ -155,11 +155,14 @@ class Snow(Create_Game_Space):
             self.y = rd.randrange(0, 500)
 
             self.snow_list.append([self.x, self.y])
+    
 
         while not self.done:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.done = True
+
+            
             
             self.screen.fill(self.color_black)
             
