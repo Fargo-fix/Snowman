@@ -1,6 +1,9 @@
 # Import a libraries of functions called 'pygame' and 'random'
 import pygame as pg
 import random as rd
+from math import pi
+
+pg.mixer.init()
 
 # Initialize the game engine
 pg.init()
@@ -14,6 +17,7 @@ class Ground:
         # Create work space
         # Definind the colors work space we will use in RGB format
         self.color_black = (0, 0, 0)
+        
 
         # Size visible window
         self.width_window = 600
@@ -41,6 +45,7 @@ class Ground:
     def draw_ground(self):
 
         pg.draw.rect(self.screen, self.color_white, self.ground)
+        
        
 # Create Snowman
 class Snowman(Ground):
@@ -52,7 +57,7 @@ class Snowman(Ground):
         # Definind the colors we will use in RGB format
         self.color_gray = (230, 200, 200)
         self.color_red = (209, 25, 25)
-        # self.color_green = (0, 255, 0)
+        self.color_green = (0, 255, 0)
 
         # Dimensions body snowman
         self.size_lower_ball = 80 # starting value
@@ -89,6 +94,13 @@ class Snowman(Ground):
         self.size_nose = self.size_lower_ball - 76
       
         # Coordinates and dimensions mouth
+        self.coord_mouth_x = self.x - 15
+        self.coord_mouth_y =  self.y - 210
+
+        # Dimensions the ground
+        self.width_mouth = 30
+        self.height_mouth = 15
+        self.mouth_rec = (self.coord_mouth_x, self.coord_mouth_y, self.width_mouth, self.height_mouth)
 
     # Draw body snowman
     def draw_body(self):
@@ -116,9 +128,16 @@ class Snowman(Ground):
 
         pg.draw.circle(self.screen, self.color_red, self.coord_nose, self.size_nose)
 
-        # Draw mouth
-        # pg.draw.circle(self.screen, self.color_green, [250, 250], 40, 20)
-        # pygame.draw.circle(screen, BLACK, [250, 250], 40, 10, draw_bottom_right=True
+    # Draw smile
+    def draw_smile(self):  
+
+        pg.draw.arc(self.screen, self.color_black,[275, 155, 50, 50], 1.22*pi, 1.8*pi, 2)
+    
+    # Draw sad smile
+    def draw_sad_smile(self):
+
+        pg.draw.arc(self.screen, self.color_black,[275, 195, 50, 50], 0.22*pi, 0.8*pi, 2)
+        
 
 class Moon(Ground):
 
@@ -141,6 +160,7 @@ class Moon(Ground):
         Snowman.draw_nose(self)
         Snowman.draw_buttons(self)
         Snowman.draw_eyes(self)
+        Snowman.draw_smile(self)
         
         pg.draw.circle(self.screen, self.color_gray, self.size_moon1, self.diameter_moon)
         pg.draw.circle(self.screen, self.color_black, self.size_moon2, self.diameter_moon)
@@ -182,30 +202,36 @@ class Snow(Ground):
                     self.x = rd.randrange(0, 600)
                     self.snow_list[i][0] = self.x
 
-            self.clock.tick(20)
+            self.clock.tick(20) 
 
 # Launches all processes
-class Manager:
+class Manager(Snowman, Snow):
 
     def __init__(self):
- 
+
+        Snowman.__init__(self) 
         Snow.__init__(self)       
         self.done = False  
+        self.clock = pg.time.Clock()
 
     def launch(self):
+        
+        pg.mixer.music.load('/home/fargo/python/Snowman/fr.ogg')
+        pg.mixer.music.play(-1)
+
+        if pg.mixer.music.get_busy():
+            pg.event.poll()
+
         # The loop runs until the close button is pressed.
         while not self.done:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.done = True
-
+                               
+                   
             Snow.draw(self)
-            pg.display.flip()
-        
+            pg.display.flip() 
+
+
 run = Manager()
 run.launch()
-
-        
-                  
-
-
